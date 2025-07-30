@@ -11,7 +11,7 @@ def load_mnist_images(path):
 
         images = np.frombuffer(data, dtype=np.uint8, offset=16)
         images = images.reshape(num_images, 1, rows, cols)  # 1 = kanal
-        # images = images.astype(np.float32) / 255.0  # normalize et
+        images = images.astype(np.float32) / 255.0  # normalize et
         return images
 
 
