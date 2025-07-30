@@ -12,11 +12,8 @@ class Dense:
         self.input_data = input_data
         return np.dot(input_data, self.weights) + self.biases
 
-    def backward(self, grad_output, learning_rate):
+    def backward(self, grad_output):
         grad_input = np.dot(grad_output, self.weights.T)
-        grad_weights = np.dot(self.input_data.T, grad_input)
-        grad_biases = np.sum(grad_output, axis=0, keepdims=True)
-
-        self.weights -= learning_rate * grad_weights
-        self.biases -= learning_rate * grad_biases
+        self.grad_weights = np.dot(self.input_data.T, grad_output)
+        self.grad_biases = np.sum(grad_output, axis=0, keepdims=True)
         return grad_input
