@@ -29,7 +29,7 @@ class Conv2D:
                 mode="constant",
             )
 
-        batch_size, in_channels, in_height, in_width = input_data.shape
+        batch_size, _, in_height, in_width = input_data.shape
         out_height = (
             in_height - self.filter_size + 2 * self.padding
         ) // self.stride + 1
@@ -46,18 +46,18 @@ class Conv2D:
                         h_end = h_start + self.filter_size
                         w_end = w_start + self.filter_size
 
+                        region = input_data[b, :, h_start:h_end, w_start:w_end]
+                        # Eğer pencere boyutu filter_size x filter_size değilse atla
+                        if region.shape != self.weights[f].shape:
+                            continue
                         output[b, f, h, w] = (
-                            np.sum(
-                                input_data[b, :, h_start:h_end, w_start:w_end]
-                                * self.weights[f]
-                            )
-                            + self.biases[f]
+                            np.sum(region * self.weights[f]) + self.biases[f, 0]
                         )
 
         return output
 
-    def backward(self, output_gradient, input_data):
-        self.input_data = input_data
+    def backward(self, output_gradient):
+        input_data = self.input_data
         if self.padding > 0:
             input_data = np.pad(
                 input_data,
@@ -87,6 +87,8 @@ class Conv2D:
                         w_end = w_start + self.filter_size
 
                         region = input_data[b, :, h_start:h_end, w_start:w_end]
+                        if region.shape != self.weights[f].shape:
+                            continue
                         d_weights[f] += output_gradient[b, f, h, w] * region
                         d_biases[f] += output_gradient[b, f, h, w]
                         d_input[b, :, h_start:h_end, w_start:w_end] += (
