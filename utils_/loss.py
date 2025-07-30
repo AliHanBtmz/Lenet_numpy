@@ -14,6 +14,6 @@ class CrossEntropyLoss:
         return loss
 
     def backward(self):
-        batch_size = self.targets.shape[0]
-        grad_input = (self.predictions - self.targets) / batch_size
+        batch_size = self.target.shape[0]
+        grad_input = (self.pred - self.target) / batch_size
         return grad_input
