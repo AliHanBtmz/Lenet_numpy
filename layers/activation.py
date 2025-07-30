@@ -43,6 +43,6 @@ class Tanh:
         self.output = np.tanh(input_data)
         return self.output
 
-    def backward(self, input_data, grad_output):
+    def backward(self, grad_output):
         tanh_derivative = 1.0 - self.output**2
         return grad_output * tanh_derivative
