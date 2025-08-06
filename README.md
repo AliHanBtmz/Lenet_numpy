@@ -15,16 +15,19 @@ In this project, the classic **LeNet-5** architecture is implemented entirely fr
 
 ## 📁 Project Structure
 
-project/
-│
-├── data/ # MNIST dataset
-├── layers/ # Layer implementations (Conv2D, Pooling, etc.)
-├── model/ # LeNet-5 model (LNet5)
-├── train.py # Training loop
-├── utils.py # Utility functions
-├── README.md # Project description
-└── results/ # Graphs and output visualizations
 
+```
+project/
+├── data/           # MNIST dataset
+├── layers/         # Layer implementations (Conv2D, Pooling, etc.)
+├── model/          # LeNet-5 model (LNet5)
+├── train.py        # Training loop
+├── utils.py        # Utility functions
+├── README.md       # Project description
+├── inference.py    # Model makes inference
+├── results/        # Graphs and output visualizations
+└── my_test_images/ # Custom test images for inference
+```
 
 ---
 
@@ -68,3 +71,4 @@ Accuracy values recorded during training:
 ```bash
 pip install numpy matplotlib
 python main.py
+
