@@ -52,7 +52,10 @@ def evaluation(model, x, y, batch_size=64):
     preds = np.concatenate(preds, axis=0)
     return accuracy(preds, y)
 
-def save_model(model, path="lenet5_weights_full_son.npz"):
+def save_model(model, output_dir="results", filename="lenet5_weights_full.npz"):
+    os.makedirs(output_dir, exist_ok=True)
+    full_path = os.path.join(output_dir, filename)
+
     params = {}
     layer_idx = 0
     for layer in model.layers:
@@ -61,8 +64,9 @@ def save_model(model, path="lenet5_weights_full_son.npz"):
         if hasattr(layer, "biases"):
             params[f"layer{layer_idx}_biases"] = layer.biases
         layer_idx += 1
-    np.savez(path, **params)
 
+    np.savez(full_path, **params)
+    print(f"Model saved to {full_path}")
 
 
 def plot_and_save_curves(train_acc_list, test_acc_list, loss_list, output_dir="results", acc_filename="accuracy_curve.png", loss_filename="loss_curve.png"):
